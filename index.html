@@ -1,10 +1,419 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Hello World</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Colorful Beginner Website</title>
+
+  <!-- Basic styles: layout, fonts, and an animated gradient background -->
+  <style>
+    :root{
+      --bg1: #ff6b6b;
+      --bg2: #f7d794;
+      --bg3: #6bc1ff;
+      --glass: rgba(255,255,255,0.12);
+      --glass-strong: rgba(255,255,255,0.20);
+      --text: #0f1724;
+      --accent: #5a9cff;
+      --radius: 14px;
+    }
+
+    /* Reset-ish */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height: 100%; }
+
+    body{
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: var(--text);
+      min-height: 100%;
+      /* animated gradient background */
+      background: linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg3));
+      background-size: 600% 600%;
+      animation: gradientShift 12s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Page card */
+    .card {
+      width: min(1100px, 96%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.35);
+      backdrop-filter: blur(6px) saturate(120%);
+      padding: 28px;
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr 360px;
+      align-items: start;
+    }
+
+    /* Header row */
+    header {
+      grid-column: 1 / -1;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo {
+      width:52px;
+      height:52px;
+      border-radius: 12px;
+      background: conic-gradient(from 180deg,var(--bg3),var(--bg1),var(--bg2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:700;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+    .title {
+      font-size:1.25rem;
+      font-weight:700;
+    }
+    .subtitle { font-size:0.9rem; opacity:0.95; }
+
+    /* main content and sidebar */
+    main {
+      padding: 12px 8px;
+    }
+    aside {
+      padding: 12px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      min-height: 160px;
+    }
+
+    /* hero section */
+    .hero {
+      background: var(--glass);
+      border-radius: 12px;
+      padding: 18px;
+      display:flex;
+      gap:16px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .hero .left {
+      flex:1;
+    }
+    .hero h1 {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+    .hero p { opacity: 0.95; }
+
+    /* action button - playful */
+    .btn {
+      background: linear-gradient(90deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor:pointer;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+      user-select: none;
+      font-weight:600;
+    }
+    .btn:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+
+    /* cards area */
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap:12px;
+      margin-top: 8px;
+    }
+
+    .tile {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+    .tile:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
+
+    /* little footer / credits */
+    footer {
+      grid-column: 1 / -1;
+      font-size: 0.85rem;
+      opacity: 0.95;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      align-items:center;
+      margin-top:6px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 900px) {
+      .card { grid-template-columns: 1fr; }
+      aside { order: 3; }
+    }
+
+    /* floating decorative circles (SVG container) */
+    .decor {
+      position:absolute;
+      inset: 0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index: -1;
+    }
+
+    /* small helper for code block look */
+    pre {
+      background: rgba(0,0,0,0.12);
+      padding:10px;
+      border-radius:8px;
+      overflow:auto;
+      font-size:0.9rem;
+      color: white;
+    }
+
+  </style>
 </head>
 <body>
-  <h1>Hello, World!</h1>
-  <p>My first GitHub website!</p>
+  <!-- Decor SVG: colorful floating blobs and shapes - purely decoration -->
+  <svg class="decor" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.08"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0.02"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="150" cy="120" rx="220" ry="120" fill="#ffffff" fill-opacity="0.03"/>
+    <ellipse cx="1020" cy="640" rx="260" ry="140" fill="#000" fill-opacity="0.03"/>
+    <g transform="translate(550,380) rotate(12)">
+      <circle cx="-220" cy="-70" r="120" fill="#ffffff" fill-opacity="0.04" />
+      <circle cx="180" cy="-10" r="90" fill="#ffffff" fill-opacity="0.03" />
+      <rect x="-360" y="120" width="140" height="140" rx="28" fill="#ffffff" fill-opacity="0.02" />
+    </g>
+  </svg>
+
+  <div class="card" role="main">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">B</div>
+        <div>
+          <div class="title">BrightBubble</div>
+          <div class="subtitle">Beginner-friendly colorful site</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn" id="confettiBtn" title="Make confetti!">🎉 Make Confetti</button>
+        <button class="btn" id="randomizeBtn" title="Change accent colors">✨ Shuffle Colors</button>
+      </div>
+    </header>
+
+    <!-- Main content area -->
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="left">
+          <h1 id="hero-title">Hello — welcome!</h1>
+          <p>Explore this small starter page to learn HTML, CSS and a tiny bit of JavaScript. Hover the cards, click the buttons, and try editing the text in your editor.</p>
+          <div style="margin-top:12px;">
+            <a class="btn" href="#learn" style="text-decoration:none;">📚 Learn More</a>
+          </div>
+        </div>
+
+        <!-- playful preview -->
+        <div style="width:160px;height:120px;border-radius:12px;background:linear-gradient(180deg,var(--bg3),var(--bg1));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.12);">
+          Fun ✨
+        </div>
+      </section>
+
+      <div id="learn" class="grid" aria-live="polite">
+        <article class="tile">
+          <h3>Colors & Gradients</h3>
+          <p>Backgrounds can be animated using <code>background-size</code> and <code>@keyframes</code>. Try changing the color variables at the top of the file.</p>
+        </article>
+
+        <article class="tile">
+          <h3>Glass Cards</h3>
+          <p>These lightweight "glass" tiles use <code>backdrop-filter: blur()</code>. It's visually cool — but still works if the browser doesn't support it.</p>
+        </article>
+
+        <article class="tile">
+          <h3>Responsive Layout</h3>
+          <p>The layout uses CSS grid and adapts — resize your browser to see how the sidebar moves below the main content on small screens.</p>
+        </article>
+
+        <article class="tile">
+          <h3>Try Editing</h3>
+          <p>Open this file in a text editor and change text/colors. Save and refresh the page to see your edits.</p>
+        </article>
+      </div>
+
+      <footer>
+        <div>Made with ☕ & code</div>
+        <div style="opacity:0.9">Try the buttons on the right →</div>
+      </footer>
+    </main>
+
+    <!-- Sidebar -->
+    <aside>
+      <h3 style="margin-bottom:8px;">Controls & Tips</h3>
+
+      <p style="margin-bottom:10px;">Press <strong>Make Confetti</strong> for a little burst of fun. Press <strong>Shuffle Colors</strong> to randomly change the accent colors (uses JS to update CSS variables).</p>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn" id="demoBtn" title="Change the hero text">✏️ Edit Hero</button>
+        <button class="btn" id="toggleDark" title="Toggle a dark-like overlay">🌙 Toggle Contrast</button>
+      </div>
+
+      <h4 style="margin-top:6px">Quick code look</h4>
+      <pre><code>&lt;button class="btn"&gt;Click me&lt;/button&gt;</code></pre>
+
+      <p style="margin-top:8px;font-size:0.9rem;opacity:0.95">This page is intentionally small and easy to read — great to hack on for your first site.</p>
+    </aside>
+  </div>
+
+  <!-- canvas for confetti -->
+  <canvas id="confettiCanvas" style="position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
+
+  <!-- JavaScript: small interactive features -->
+  <script>
+    // Helpers to pick random colors and update CSS variables:
+    const root = document.documentElement;
+
+    function randomHueColor() {
+      const h = Math.floor(Math.random()*360);
+      return `hsl(${h} 85% 60%)`;
+    }
+
+    function shuffleColors() {
+      root.style.setProperty('--bg1', randomHueColor());
+      root.style.setProperty('--bg2', randomHueColor());
+      root.style.setProperty('--bg3', randomHueColor());
+      root.style.setProperty('--accent', randomHueColor());
+    }
+
+    document.getElementById('randomizeBtn').addEventListener('click', () => {
+      shuffleColors();
+    });
+
+    // Toggle a darker overlay (simulated "dark mode" effect by tweaking background)
+    let contrastOn = false;
+    document.getElementById('toggleDark').addEventListener('click', () => {
+      contrastOn = !contrastOn;
+      if (contrastOn) {
+        document.body.style.filter = 'saturate(0.85) brightness(0.86)';
+      } else {
+        document.body.style.filter = '';
+      }
+    });
+
+    // Demo: prompt to edit hero text
+    document.getElementById('demoBtn').addEventListener('click', () => {
+      const newText = prompt('Write a short headline for the hero:', document.getElementById('hero-title').textContent);
+      if (newText !== null) {
+        document.getElementById('hero-title').textContent = newText;
+      }
+    });
+
+    // Simple confetti engine using canvas (no libraries)
+    (function() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let running = false;
+
+      function resize() {
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+      }
+      addEventListener('resize', resize);
+      resize();
+
+      function rand(min, max) { return Math.random()*(max-min)+min; }
+
+      function makeBurst(x = canvas.width/2, y = canvas.height/2, count = 60) {
+        const colors = [
+          '255,99,132','255,159,64','255,205,86','75,192,192','54,162,235','153,102,255'
+        ];
+        for (let i=0;i<count;i++) {
+          particles.push({
+            x, y,
+            vx: rand(-6,6),
+            vy: rand(-10, -2),
+            r: rand(4,10),
+            life: rand(50,120),
+            color: colors[Math.floor(rand(0,colors.length))],
+            tilt: rand(-0.6,0.6),
+            rotation: rand(0,Math.PI*2),
+            spin: rand(-0.15,0.15)
+          });
+        }
+        if (!running) {
+          running = true;
+          requestAnimationFrame(loop);
+        }
+      }
+
+      function loop() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for (let i = particles.length-1; i >= 0; i--) {
+          const p = particles[i];
+          p.life--;
+          if (p.life <= 0 || p.y > canvas.height + 50) {
+            particles.splice(i,1);
+            continue;
+          }
+          p.vy += 0.25; // gravity
+          p.vx *= 0.99;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rotation += p.spin;
+
+          ctx.save();
+          ctx.translate(p.x,p.y);
+          ctx.rotate(p.rotation);
+          ctx.fillStyle = `rgba(${p.color}, ${Math.max(0.12, p.life/120)})`;
+          // draw a small tilted rectangle (like a paper confetti piece)
+          ctx.fillRect(-p.r/2, -p.r/2 + p.tilt*6, p.r, p.r*0.6);
+          ctx.restore();
+        }
+        if (particles.length > 0) {
+          requestAnimationFrame(loop);
+        } else {
+          running = false;
+        }
+      }
+
+      document.getElementById('confettiBtn').addEventListener('click', (ev) => {
+        // burst from button position
+        const rect = ev.currentTarget.getBoundingClientRect();
+        const x = rect.left + rect.width/2;
+        const y = rect.top + rect.height/2;
+        makeBurst(x, y, 80);
+      });
+
+      // also allow clicking anywhere for a tiny burst
+      document.addEventListener('click', (e) => {
+        // ignore clicks on the confetti button (it already triggers)
+        if (e.target && e.target.id === 'confettiBtn') return;
+        makeBurst(e.clientX, e.clientY, 20);
+      });
+    })();
+  </script>
 </body>
 </html>
